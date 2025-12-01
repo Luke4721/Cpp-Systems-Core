@@ -11,7 +11,10 @@ int main()
 
 void Spy(int depth)
 {
-    if(depth>3) return;
+    if(depth%1000==0)
+    {
+        cout<<"Depth: "<<depth<<endl;
+    }
     int x{depth};
     cout<<x<<endl;
     cout<<&x<<endl;
