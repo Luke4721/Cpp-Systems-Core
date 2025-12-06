@@ -32,19 +32,33 @@ public:
         }
         return *this;
     }
+    NaiveArray(NaiveArray&& other) noexcept
+    {
+        ptr = other.ptr;
+        other.ptr = nullptr;
+        cout<<"Moved!!"<<endl;
+    }
+    NaiveArray& operator=(NaiveArray&& other) noexcept
+    {
+        if (this != &other) {
+            delete ptr;
+            ptr = other.ptr;
+            other.ptr = nullptr;
+            cout<<"Moved!!"<<endl;
+        }
+        return *this;
+    }
 };
 
 int main() {
     {
         NaiveArray a(10); // Allocates memory
-        NaiveArray b = a; // <--- DANGER! Default Copy Constructor runs.
+        cout<<"----Moving a to b----"<<endl;
+        NaiveArray b = move(a);
+        cout<<"-----End of Scope-----"<<endl;
         
-        // 'b' is now a CLONE of 'a'.
-        // b.ptr and a.ptr are IDENTICAL.
     } 
     // End of scope:
-    // 1. 'b' is destroyed. calls delete ptr. (Fine)
-    // 2. 'a' is destroyed. calls delete ptr... AGAIN. (CRASH)
     
     return 0;
 }
