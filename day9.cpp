@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 using namespace std;
 class NaiveArray {
@@ -50,15 +51,40 @@ public:
     }
 };
 
+struct Node {
+    int data;
+    //Instead of 'Node* next' use unique_ptr,
+    //This means : "I own the next node. If I die, it dies."
+    unique_ptr<Node> next;
+
+    //Constructor
+    Node(int value) : data(value) {
+        cout<<"Node("<<data<<") Created";    
+    }
+    //Destructor
+    ~Node() {
+        cout<<"Node("<<data<<") Destroyed";
+    }
+};
 int main() {
     {
+        cout<<"-----Start of Scope-----"<<endl;
+        unique_ptr<Node> head = make_unique<Node>(10);
+        head->next = make_unique<Node>(2);
+        head->next->next = make_unique<Node>(3);
+        shared_ptr p1 = make_shared<Node>(999);
+        {
+        shared_ptr p2 = p1;
+        cout<<"Inside the inner scope, p1 is shared with p2"<<endl;
+        cout<<"Reference count :"<<p1.use_count()<<endl;
+        }
+        cout<<"Reference count out of the inner scope :"<<p1.use_count()<<endl;
+        cout<<"-----End of Scope-----"<<endl;
+    }
         NaiveArray a(10); // Allocates memory
         cout<<"----Moving a to b----"<<endl;
         NaiveArray b = move(a);
         cout<<"-----End of Scope-----"<<endl;
         
-    } 
-    // End of scope:
-    
     return 0;
-}
+    }
