@@ -72,7 +72,7 @@ int main() {
         unique_ptr<Node> head = make_unique<Node>(10);
         head->next = make_unique<Node>(2);
         head->next->next = make_unique<Node>(3);
-        shared_ptr p1 = make_shared<Node>(999);
+        auto p1 = make_shared<Node>(999);
         {
         shared_ptr p2 = p1;
         cout<<"Inside the inner scope, p1 is shared with p2"<<endl;
