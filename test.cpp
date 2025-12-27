@@ -1,26 +1,28 @@
 #include <iostream>
 using namespace std;
 
-void swap_ptr(int* a, int* b) 
-{
-    cout<<*a;
-}
+struct A {
+    char a;   // 1 byte
+    int  b;   // 4 bytes
+    char c;   // 1 byte
+};
 
-void swap_ref(int& a, int& b) {
-}
+struct B {
+    int  b;
+    char a;
+    char c;
+};
+
+struct C {
+    char a;
+    char c;
+    int  b;
+};
 
 int main() {
-    int x = 5, y = 10;
-
-    cout << "Before: " << x << " " << y << "\n";
-    swap_ptr(&x, &y);
-    cout << "After pointer swap: " << x << " " << y << "\n";
-
-    // Reset x, y
-
-    cout << "Before: " << x << " " << y << "\n";
-    swap_ref(x, y);
-    cout << "After reference swap: " << x << " " << y << "\n";
+    cout << "sizeof(A): " << sizeof(A) << "\n";
+    cout << "sizeof(B): " << sizeof(B) << "\n";
+    cout << "sizeof(C): " << sizeof(C) << "\n";
 
     return 0;
 }
